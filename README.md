@@ -1,5 +1,5 @@
 # YouTube-Downloader
-An implementation of a desktop application that downloads you tube videos 
+An implementation of a desktop application that downloads youtube videos 
 
 PyQt5 was used for implementing the UI and the threading mechanism
 Pafy API was used for application interface with YouTube
