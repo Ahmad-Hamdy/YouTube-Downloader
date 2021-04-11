@@ -2,50 +2,104 @@
 #             https://www.youtube.com/watch?v=1fOBgosDo7s
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from requests import get
 from pafy import new
-import sys
+
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
         uic.loadUi('youtube.ui', self)
+        self.setMaximumWidth(900)
+        self.setMaximumHeight(750)
+        self.Streams = None
+        self.URL = ""
+        self.selected_resolution = self.resolutions.currentText()
         self.setupUi()
 
     def setupUi(self):
+        self.progress_label.hide()
+        self.progressBar.hide()
+        self.download_size_label.hide()
+        self.download_size.hide()
+        self.download_eta_label.hide()
+        self.download_eta.hide()
+
         self.downloader = DownLoader()
         self.thread = QtCore.QThread(self)
         self.thread.start()
         self.downloader.moveToThread(self.thread)
+
         self.pathEntry.editingFinished.connect(self.get_streams)
+        self.type.currentTextChanged.connect(lambda t: self.type_changed(t))
+        self.resolutions.textActivated.connect(lambda text: self.change_resolution(text))
         self.destination_path.editingFinished.connect(self.update_download_path)
         self.browse.clicked.connect(self.get_download_path)
         self.download.clicked.connect(self.start_download)
+
         self.downloader.ratioSignal.connect(self.progressBar.setValue)
         self.downloader.recvdSignal.connect(self.download_size.setText)
         self.downloader.etaSignal.connect(self.download_eta.setText)
         self.downloader.finished.connect(self.on_finished)
 
     def get_streams(self): 
-        global Streams
-        Streams = None
-        URL = self.pathEntry.text()
+        self.URL = self.pathEntry.text()
 
-        if not URL:
+        if not self.URL:
             return False
 
-        Streams = new(URL).streams
+        try:
+            video = new(self.URL)
+            self.Streams = video.streams
+        except:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.setWindowTitle("Error")
+            msg.setText("self.URL Error")
+            msg.setInformativeText("Couldn't find the video self.URL given")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+            msg.exec_()
+            return
 
-        resolutions = [video.dimensions[1] for video in Streams]
-        if 144 in resolutions:
-            self.res_144.setEnabled(True)
-        if 240 in resolutions:
-            self.res_240.setEnabled(True)
-        if 360 in resolutions:
-            self.res_360.setEnabled(True)
-        if 480 in resolutions:
-            self.res_480.setEnabled(True)
-        if 720 in resolutions:
-            self.res_720.setEnabled(True)
+        pixmap = QtGui.QPixmap()
+        pixmap.loadFromData(get(video.bigthumb).content)
+        self.thumbnail.setPixmap(pixmap.scaled(150, 150))
+        self.title.setText(f"{video.title}")
+        self.category.setText(f"Category: {video.category}")
+        self.rating.setText(f"Rating: {video.rating}")
+        self.views.setText(f"views: {video.viewcount}")
+        self.duration.setText(f"{video.duration}")
+
+        resolutions = [f"{video.quality} {video.extension}" for video in self.Streams]
+        # add the list items to resolutions combo box
+        self.resolutions.clear()
+        self.resolutions.insertItems(0, resolutions)
+
+    def type_changed(self, t):
+        try:
+            if t == "Video only":
+                self.Streams = new(self.URL).videostreams
+            elif t == "Audio only":
+                self.Streams = new(self.URL).audiostreams
+            elif t == "Video + Audio":
+                self.Streams = new(self.URL).streams
+        except:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.setWindowTitle("Error")
+            msg.setText("self.URL Error")
+            msg.setInformativeText("Couldn't find the video URL given")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+            msg.exec_()
+            return
+
+        resolutions = [f"{video.quality} {video.extension}" for video in self.Streams]
+        # update resolutions combo box with list
+        self.resolutions.clear()
+        self.resolutions.insertItems(0, resolutions)
+
+    def change_resolution(self, resolution):
+    	self.selected_resolution = resolution
 
     def get_download_path(self):
         self.path = QtWidgets.QFileDialog.getExistingDirectory(self)
@@ -59,30 +113,15 @@ class Ui(QtWidgets.QMainWindow):
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Critical)
             msg.setWindowTitle("Error")
-            msg.setText("URL Error")
-            msg.setInformativeText("Video URL field is empty")
-            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-            msg.exec_()
-            return
-        
-        selected_resolution = [resolution.text() for resolution in [self.res_144, self.res_240, self.res_360, self.res_480, self.res_720] if resolution.isChecked()]
-        if selected_resolution:
-            selected_resolution = int(selected_resolution[0][:-1])
-        elif not Streams:
-            return
-        else:
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Critical)
-            msg.setWindowTitle("Error")
-            msg.setText("No resolution provided")
-            msg.setInformativeText("Please select one of the available resolutions")
+            msg.setText("self.URL Error")
+            msg.setInformativeText("Video self.URL field is empty")
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.exec_()
             return
 
         video = None
-        for stream in Streams:
-        	if stream.dimensions[1] == selected_resolution:
+        for stream in self.Streams:
+        	if f"{stream.quality} {stream.extension}" == self.selected_resolution:
         		video = stream
         		break
 
@@ -91,9 +130,12 @@ class Ui(QtWidgets.QMainWindow):
                 QtCore.Qt.QueuedConnection,
                 QtCore.Q_ARG(object, video),
                 QtCore.Q_ARG(str, self.path))
+        self.download.setEnabled(False)
+        self.setStatusTip("Downloading...")
 
     @QtCore.pyqtSlot()
     def on_finished(self):
+        self.download.setEnabled(True)
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setWindowTitle("Success")
@@ -101,11 +143,11 @@ class Ui(QtWidgets.QMainWindow):
         msg.setInformativeText("Video saved at: " + self.path)
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msg.exec_()
+        self.setStatusTip("Download Complete")
 
     def closeEvent(self, event):
         self.thread.terminate()
-
-
+        
 class DownLoader(QtCore.QObject):
     ratioSignal = QtCore.pyqtSignal(int)
     recvdSignal = QtCore.pyqtSignal(str)
@@ -114,16 +156,24 @@ class DownLoader(QtCore.QObject):
 
     @QtCore.pyqtSlot(object, str)
     def start_download(self, video, path):
+        window.progress_label.show()
+        window.progressBar.show()
+        window.download_size_label.show()
+        window.download_size.show()
+        window.download_eta_label.show()
+        window.download_eta.show()
         video.download(filepath = path, quiet=True, callback= self.on_progress)
 
     def on_progress(self, total, recvd, ratio, rate, eta):
         self.ratioSignal.emit(int(ratio * 100))
-        self.recvdSignal.emit(f"{int(recvd)/1000}/{int(total)/1000} MBs")
+        self.recvdSignal.emit(f"{int(recvd)/1000000}/{int(total)/1000000} MBs")
         self.etaSignal.emit(str(eta) + " Seconds")
         if recvd == total:
             self.finished.emit()
 
-app = QtWidgets.QApplication(sys.argv)
-window = Ui()
-window.show()
-sys.exit(app.exec_())
+if __name__ == '__main__':
+	import sys
+	app = QtWidgets.QApplication(sys.argv)
+	window = Ui()
+	window.show()
+	sys.exit(app.exec_())
