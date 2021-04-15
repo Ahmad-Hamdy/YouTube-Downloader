@@ -10,6 +10,12 @@
     <height>750</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>900</width>
+    <height>750</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>YouTube Downloader</string>
   </property>
@@ -20,6 +26,48 @@
   <property name="statusTip">
    <string>Enter a youtube video URL in (Video Path) field to connect...</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+background-color: rgb(40, 49, 73);
+color: rgb(219, 237, 243);
+}
+
+QPushButton, QLineEdit{
+background-color: rgb(64, 75, 105);
+}
+QPushButton:hover, QLineEdit:hover{
+background-color: 	rgb(0, 129, 138);
+}
+QLineEdit:focus{
+background-color: 	rgb(0, 129, 138);
+border:7px solid rgb(255, 85, 0); /* Not Applied*/
+}
+
+
+#frame{border: 1px solid rgb(113, 127, 168);}
+
+/*******************************************/
+#download{border-style: outset;}/* Not Applied*/
+#download:pressed {border-style: inset;}/* Not Applied*/
+/*******************************************/
+#progressBar{
+	color: rgb(64, 75, 105);
+	background-color: rgb(219, 237, 217);
+	border-radius: 10px;
+	text-align: center;
+}
+#progressBar::chunk{
+	border-radius: 10px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.997, y2:0, stop:0 rgba(170, 0, 255, 255), stop:1 rgba(170, 170, 255, 255));
+}
+
+
+
+
+
+
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="statusTip">
     <string>Enter a youtube video URL in (Video Path) field to connect...</string>
@@ -28,7 +76,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>50</y>
+      <y>69</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -49,7 +97,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>50</y>
+      <y>69</y>
       <width>620</width>
       <height>41</height>
      </rect>
@@ -62,6 +110,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Lucida Bright</family>
       <pointsize>14</pointsize>
      </font>
     </property>
@@ -74,12 +123,21 @@
     <property name="statusTip">
      <string>enter video path here...</string>
     </property>
+    <property name="styleSheet">
+     <string notr="true">padding-left: 20px;
+padding-right: 20px;
+border: 1px solid rgb(113, 127, 168);
+border-radius: 20%;</string>
+    </property>
+    <property name="placeholderText">
+     <string>Enter youtube video URL here...</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="download">
     <property name="geometry">
      <rect>
       <x>325</x>
-      <y>630</y>
+      <y>649</y>
       <width>251</width>
       <height>51</height>
      </rect>
@@ -92,6 +150,9 @@
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Click me to download!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20%;</string>
+    </property>
     <property name="text">
      <string>Download</string>
     </property>
@@ -100,7 +161,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>540</y>
+      <y>559</y>
       <width>650</width>
       <height>23</height>
      </rect>
@@ -116,7 +177,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>540</y>
+      <y>559</y>
       <width>86</width>
       <height>28</height>
      </rect>
@@ -134,10 +195,15 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>570</y>
-      <width>131</width>
-      <height>16</height>
+      <y>589</y>
+      <width>111</width>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;size downloaded&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -149,11 +215,16 @@
    <widget class="QLabel" name="download_size_label">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>570</y>
-      <width>74</width>
-      <height>16</height>
+      <x>170</x>
+      <y>589</y>
+      <width>95</width>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;size downloaded&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -165,27 +236,37 @@
    <widget class="QLabel" name="download_eta_label">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>570</y>
-      <width>93</width>
-      <height>16</height>
+      <x>570</x>
+      <y>589</y>
+      <width>126</width>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;time remaining to download video&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string>Time Remaining</string>
+     <string>Time Remaining:</string>
     </property>
    </widget>
    <widget class="QLabel" name="download_eta">
     <property name="geometry">
      <rect>
       <x>700</x>
-      <y>570</y>
-      <width>71</width>
-      <height>16</height>
+      <y>589</y>
+      <width>111</width>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;time remaining to download video&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -198,7 +279,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>450</y>
+      <y>469</y>
       <width>86</width>
       <height>28</height>
      </rect>
@@ -216,7 +297,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>450</y>
+      <y>469</y>
       <width>225</width>
       <height>35</height>
      </rect>
@@ -241,13 +322,17 @@
     <property name="statusTip">
      <string>you can change the destination path here...</string>
     </property>
+    <property name="styleSheet">
+     <string notr="true">padding-left: 10px;
+border: 1px solid rgb(113, 127, 168);</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="browse">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>450</y>
-      <width>35</width>
+      <x>410</x>
+      <y>470</y>
+      <width>151</width>
       <height>35</height>
      </rect>
     </property>
@@ -262,15 +347,25 @@
     <property name="statusTip">
      <string>browse for download location</string>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">image: url(E:/Work/Python/testings/icons/24x24/cil-folder-open.png);
+image-position: left;
+text-align: right;
+padding-right: 15px;
+padding-left: 15px;</string>
+    </property>
     <property name="text">
-     <string>...</string>
+     <string>browse...</string>
     </property>
    </widget>
    <widget class="QLabel" name="type_label">
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>340</y>
+      <y>359</y>
       <width>57</width>
       <height>28</height>
      </rect>
@@ -280,60 +375,21 @@
       <pointsize>14</pointsize>
      </font>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;select download type&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="whatsThis">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;select download type&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>Type:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="type">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>340</y>
-      <width>175</width>
-      <height>34</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <item>
-     <property name="text">
-      <string>Video + Audio</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Video only</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Audio only</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QComboBox" name="resolutions">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>340</y>
-      <width>175</width>
-      <height>34</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
     </property>
    </widget>
    <widget class="QLabel" name="resolutions_label">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>340</y>
+      <y>359</y>
       <width>112</width>
       <height>28</height>
      </rect>
@@ -343,6 +399,9 @@
       <pointsize>14</pointsize>
      </font>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select download quality&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>Resolution:</string>
     </property>
@@ -351,7 +410,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>130</y>
+      <y>149</y>
       <width>800</width>
       <height>150</height>
      </rect>
@@ -365,17 +424,17 @@
     <widget class="QLabel" name="thumbnail">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
+       <x>1</x>
+       <y>1</y>
        <width>150</width>
-       <height>150</height>
+       <height>148</height>
       </rect>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>youtube.png</pixmap>
+      <pixmap>icons/youtube.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -385,9 +444,9 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>0</y>
+       <y>10</y>
        <width>600</width>
-       <height>81</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="font">
@@ -399,7 +458,7 @@
       <cursorShape>IBeamCursor</cursorShape>
      </property>
      <property name="text">
-      <string/>
+      <string>Video Details will be displayed here...</string>
      </property>
      <property name="scaledContents">
       <bool>false</bool>
@@ -463,7 +522,7 @@
      <property name="geometry">
       <rect>
        <x>98</x>
-       <y>134</y>
+       <y>130</y>
        <width>52</width>
        <height>16</height>
       </rect>
@@ -501,16 +560,414 @@ background-color: rgb(0, 0, 0);</string>
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>900</width>
-     <height>26</height>
-    </rect>
-   </property>
+   <widget class="QLabel" name="rate">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>589</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;size downloaded&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>N/A MBs</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rate_label">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>589</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;size downloaded&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>Speed:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="resolutions">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>359</y>
+      <width>271</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 15%;
+	padding-left: 20px;
+	color: rgb(160, 160, 238);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+	padding-left: 20px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left: 1px solid darkgrey;
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {
+    image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-bottom.png);
+	background-color: rgb(53, 53, 79);
+	border-radius: 15%;
+	width: 30%;
+	height: 30%;
+	right: 8px;
+}
+QComboBox::down-arrow:hover {
+	background-color: rgb(85, 85, 127);
+}
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+	image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-top.png);
+	background-color: rgb(53, 53, 79);
+	border-radius: 15%;
+	width: 30%;
+	height: 30%;
+	right: 8px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid darkgray;
+    selection-background-color: lightgray;
+	background-color: rgb(170, 170, 255);
+	selection-color: rgb(53, 53, 79);
+	color: rgb(40, 49, 73);
+	outline: 0px;
+}</string>
+    </property>
+    <property name="placeholderText">
+     <string>Choose resolution...</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="type">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>359</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 15%;
+	padding-left: 20px;
+	color: rgb(160, 160, 238);
+}
+/*
+QComboBox:editable {}
+
+QComboBox:!editable, QComboBox::drop-down:editable {}
+*/
+/* QComboBox gets the &quot;on&quot; state when the popup is open *//*
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {}
+*/
+QComboBox:on { /* shift the text when the popup opens */
+	padding-left: 20px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left: 1px solid darkgrey;
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {
+    image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-bottom.png);
+	background-color: rgb(53, 53, 79);
+	border-radius: 15%;
+	width: 30%;
+	height: 30%;
+	right: 8px;
+}
+QComboBox::down-arrow:hover {
+	background-color: rgb(85, 85, 127);
+}
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+	image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-top.png);
+	background-color: rgb(53, 53, 79);
+	border-radius: 15%;
+	width: 30%;
+	height: 30%;
+	right: 8px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid darkgray;
+    selection-background-color: lightgray;
+	background-color: rgb(170, 170, 255);
+	selection-color: rgb(53, 53, 79);
+	color: rgb(40, 49, 73);
+	outline: 0px;
+}</string>
+    </property>
+    <property name="placeholderText">
+     <string>Choose a type...</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Video + Audio</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Audio only</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Video only</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_title_bar_top">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>0</y>
+      <width>745</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: transparent;
+</string>
+    </property>
+    <property name="text">
+     <string>YouTube Download Manager</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_icon_top_bar">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: transparent;
+background-image: url(icons/YT.png);
+background-position: center;
+background-repeat: no-repeat;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_close">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>0</y>
+      <width>40</width>
+      <height>42</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="toolTip">
+     <string>Close</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {	
+	border: none;
+	background-color: transparent;
+}
+QPushButton:hover {
+	background-color: rgb(52, 59, 72);
+}
+QPushButton:pressed {
+	background-color: rgb(226, 41, 4);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/16x16/cil-x.png</normaloff>icons/16x16/cil-x.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_minimize">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>0</y>
+      <width>40</width>
+      <height>42</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="toolTip">
+     <string>Minimize</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {	
+	border: none;
+	background-color: transparent;
+}
+QPushButton:hover {
+	background-color: rgb(52, 59, 72);
+}
+QPushButton:pressed {	
+	background-color: rgb(85, 170, 255);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/16x16/cil-window-minimize.png</normaloff>icons/16x16/cil-window-minimize.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_maximize_restore">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>0</y>
+      <width>40</width>
+      <height>42</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="toolTip">
+     <string>Maximize</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {	
+	border: none;
+	background-color: transparent;
+}
+QPushButton:hover {
+	background-color: rgb(52, 59, 72);
+}
+QPushButton:pressed {
+	background-color: rgb(115, 137, 190);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/16x16/cil-window-maximize.png</normaloff>icons/16x16/cil-window-maximize.png</iconset>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
@@ -519,5 +976,38 @@ background-color: rgb(0, 0, 0);</string>
   <tabstop>download</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_close</sender>
+   <signal>clicked()</signal>
+   <receiver>YouTubeDownloader</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>879</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_minimize</sender>
+   <signal>clicked()</signal>
+   <receiver>YouTubeDownloader</receiver>
+   <slot>showMinimized()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>799</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

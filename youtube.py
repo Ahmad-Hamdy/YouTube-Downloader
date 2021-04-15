@@ -24,6 +24,9 @@ class Ui(QtWidgets.QMainWindow):
         self.download_size.hide()
         self.download_eta_label.hide()
         self.download_eta.hide()
+        self.rate_label.hide()
+        self.rate.hide()
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
         self.downloader = DownLoader()
         self.thread = QtCore.QThread(self)
@@ -39,6 +42,7 @@ class Ui(QtWidgets.QMainWindow):
 
         self.downloader.ratioSignal.connect(self.progressBar.setValue)
         self.downloader.recvdSignal.connect(self.download_size.setText)
+        self.downloader.rateSignal.connect(self.rate.setText)
         self.downloader.etaSignal.connect(self.download_eta.setText)
         self.downloader.finished.connect(self.on_finished)
 
@@ -143,6 +147,16 @@ class Ui(QtWidgets.QMainWindow):
         msg.setInformativeText("Video saved at: " + self.path)
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msg.exec_()
+
+        self.progress_label.hide()
+        self.progressBar.hide()
+        self.download_size_label.hide()
+        self.download_size.hide()
+        self.download_eta_label.hide()
+        self.download_eta.hide()
+        self.rate_label.hide()
+        self.rate.hide()
+
         self.setStatusTip("Download Complete")
 
     def closeEvent(self, event):
@@ -151,6 +165,7 @@ class Ui(QtWidgets.QMainWindow):
 class DownLoader(QtCore.QObject):
     ratioSignal = QtCore.pyqtSignal(int)
     recvdSignal = QtCore.pyqtSignal(str)
+    rateSignal = QtCore.pyqtSignal(str)
     etaSignal = QtCore.pyqtSignal(str)
     finished = QtCore.pyqtSignal()
 
@@ -162,11 +177,14 @@ class DownLoader(QtCore.QObject):
         window.download_size.show()
         window.download_eta_label.show()
         window.download_eta.show()
+        window.rate_label.show()
+        window.rate.show()
         video.download(filepath = path, quiet=True, callback= self.on_progress)
 
     def on_progress(self, total, recvd, ratio, rate, eta):
         self.ratioSignal.emit(int(ratio * 100))
-        self.recvdSignal.emit(f"{int(recvd)/1000000}/{int(total)/1000000} MBs")
+        self.recvdSignal.emit("{:.2f}/{:.2f} MBs".format(int(recvd)/1000000, int(total)/1000000))
+        self.rateSignal.emit(f"{rate} Kb/s")
         self.etaSignal.emit(str(eta) + " Seconds")
         if recvd == total:
             self.finished.emit()
