@@ -75,7 +75,6 @@ class Ui(QtWidgets.QMainWindow):
         self.duration.setText(f"{video.duration}")
 
         resolutions = [f"{video.quality} {video.extension}" for video in self.Streams]
-        # add the list items to resolutions combo box
         self.resolutions.clear()
         self.resolutions.insertItems(0, resolutions)
 

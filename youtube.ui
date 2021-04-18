@@ -351,7 +351,7 @@ border: 1px solid rgb(113, 127, 168);</string>
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(E:/Work/Python/testings/icons/24x24/cil-folder-open.png);
+     <string notr="true">image: url(icons/cil-folder-open.png);
 image-position: left;
 text-align: right;
 padding-right: 15px;
@@ -639,7 +639,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-    image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-bottom.png);
+    image: url(icons/16x16/cil-chevron-bottom.png);
 	background-color: rgb(53, 53, 79);
 	border-radius: 15%;
 	width: 30%;
@@ -650,7 +650,7 @@ QComboBox::down-arrow:hover {
 	background-color: rgb(85, 85, 127);
 }
 QComboBox::down-arrow:on { /* shift the arrow when popup is open */
-	image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-top.png);
+	image: url(icons/16x16/cil-chevron-top.png);
 	background-color: rgb(53, 53, 79);
 	border-radius: 15%;
 	width: 30%;
@@ -715,7 +715,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-    image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-bottom.png);
+    image: url(icons/16x16/cil-chevron-bottom.png);
 	background-color: rgb(53, 53, 79);
 	border-radius: 15%;
 	width: 30%;
@@ -726,7 +726,7 @@ QComboBox::down-arrow:hover {
 	background-color: rgb(85, 85, 127);
 }
 QComboBox::down-arrow:on { /* shift the arrow when popup is open */
-	image: url(E:/Work/Python/testings/icons/16x16/cil-chevron-top.png);
+	image: url(icons/16x16/cil-chevron-top.png);
 	background-color: rgb(53, 53, 79);
 	border-radius: 15%;
 	width: 30%;
