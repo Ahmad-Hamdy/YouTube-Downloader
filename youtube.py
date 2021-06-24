@@ -1,6 +1,11 @@
 # test cases: https://www.youtube.com/watch?v=7-qGKqveZaM       short video
 #             https://www.youtube.com/watch?v=1fOBgosDo7s
 
+# to open a folder in the computer
+# from os import startfile
+# startfile(path)
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from requests import get
 from pafy import new
@@ -183,7 +188,7 @@ class DownLoader(QtCore.QObject):
     def on_progress(self, total, recvd, ratio, rate, eta):
         self.ratioSignal.emit(int(ratio * 100))
         self.recvdSignal.emit("{:.2f}/{:.2f} MBs".format(int(recvd)/1000000, int(total)/1000000))
-        self.rateSignal.emit(f"{rate} Kb/s")
+        self.rateSignal.emit("{:.2f} Kb/s".format(rate))
         self.etaSignal.emit(str(eta) + " Seconds")
         if recvd == total:
             self.finished.emit()
