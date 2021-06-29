@@ -1,12 +1,9 @@
 # test cases: https://www.youtube.com/watch?v=7-qGKqveZaM       short video
 #             https://www.youtube.com/watch?v=1fOBgosDo7s
 
-# to open a folder in the computer
-# from os import startfile
-# startfile(path)
-
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from os import startfile, system
 from requests import get
 from pafy import new
 
@@ -71,7 +68,8 @@ class Ui(QtWidgets.QMainWindow):
             return
 
         pixmap = QtGui.QPixmap()
-        pixmap.loadFromData(get(video.bigthumb).content)
+        self.image = get(video.bigthumb).content
+        pixmap.loadFromData(self.image)
         self.thumbnail.setPixmap(pixmap.scaled(150, 150))
         self.title.setText(f"{video.title}")
         self.category.setText(f"Category: {video.category}")
@@ -144,13 +142,17 @@ class Ui(QtWidgets.QMainWindow):
     @QtCore.pyqtSlot()
     def on_finished(self):
         self.download.setEnabled(True)
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Information)
-        msg.setWindowTitle("Success")
-        msg.setText("Download complete successfully")
-        msg.setInformativeText("Video saved at: " + self.path)
-        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        msg.exec_()
+
+        complete = download_complete({
+					"image" : self.image,
+			        "title" : self.title.text(),
+			        "category" : self.category.text(),
+			        "rating" : self.rating.text(),
+			        "views" : self.views.text(),
+			        "duration" : self.duration.text(),
+			        "path" : self.path})
+        complete.show()
+        self.showMinimized()
 
         self.progress_label.hide()
         self.progressBar.hide()
@@ -192,6 +194,30 @@ class DownLoader(QtCore.QObject):
         self.etaSignal.emit(str(eta) + " Seconds")
         if recvd == total:
             self.finished.emit()
+
+class download_complete(QtWidgets.QMainWindow):
+    def __init__(self, data):
+        super(download_complete, self).__init__()
+        uic.loadUi('downlad_complete.ui', self)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+        self.path = data['path']
+        pixmap = QtGui.QPixmap()
+        pixmap.loadFromData(data["image"])
+        self.thumbnail.setPixmap(pixmap.scaled(150, 150))
+        self.title.setText(data['title'])
+        self.category.setText(f"Category: {data['category']}")
+        self.rating.setText(f"Rating: {data['rating']}")
+        self.views.setText(f"views: {data['views']}")
+        self.duration.setText(f"{data['duration']}")
+
+        self.setupUi()
+
+    def setupUi(self):
+    	self.exit.clicked.connect(self.close)
+    	self.open_location.clicked.connect(lambda :startfile(self.path))
+    	self.open.clicked.connect(lambda :system(f'"{self.path}\\{self.title.text()}"')) #BUG HERE
+    	self.location.setText(self.path)
 
 if __name__ == '__main__':
 	import sys
