@@ -37,6 +37,6 @@ if __name__ == '__main__':
 			        "rating" : f"{4.48494:.2}",
 			        "views" : f"{12511:,}",
 			        "duration" : "00:00:15",
-			        "path" : r"C:/Users/mo/OneDrive - Faculty of Engineering_Benha (Benha University)/Desktop"})
+			        "path" : r"E:/"})
 	window.show()
 	sys.exit(app.exec_())
