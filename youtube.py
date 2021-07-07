@@ -70,11 +70,11 @@ class Ui(QtWidgets.QMainWindow):
         pixmap = QtGui.QPixmap()
         self.image = get(video.bigthumb).content
         pixmap.loadFromData(self.image)
-        self.thumbnail.setPixmap(pixmap.scaled(150, 150))
+        self.thumbnail.setPixmap(pixmap.scaled(171, 171))
         self.title.setText(f"{video.title}")
         self.category.setText(f"Category: {video.category}")
-        self.rating.setText(f"Rating: {video.rating}")
-        self.views.setText(f"views: {video.viewcount}")
+        self.rating.setText(f"Rating: {video.rating:.2}")
+        self.views.setText(f"views: {video.viewcount:,}")
         self.duration.setText(f"{video.duration}")
 
         resolutions = [f"{video.quality} {video.extension}" for video in self.Streams]
@@ -202,9 +202,10 @@ class download_complete(QtWidgets.QMainWindow):
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
         self.path = data['path']
+        self.location.setText(self.path)
         pixmap = QtGui.QPixmap()
         pixmap.loadFromData(data["image"])
-        self.thumbnail.setPixmap(pixmap.scaled(150, 150))
+        self.thumbnail.setPixmap(pixmap.scaled(171, 171))
         self.title.setText(data['title'])
         self.category.setText(f"Category: {data['category']}")
         self.rating.setText(f"Rating: {data['rating']}")
@@ -216,7 +217,7 @@ class download_complete(QtWidgets.QMainWindow):
     def setupUi(self):
     	self.exit.clicked.connect(self.close)
     	self.open_location.clicked.connect(lambda :startfile(self.path))
-    	self.open.clicked.connect(lambda :system(f'"{self.path}\\{self.title.text()}"')) #BUG HERE
+    	self.open.clicked.connect(lambda :system('"{}/{}"'.format(self.path, self.title.text()))) #BUG HERE
     	self.location.setText(self.path)
 
 if __name__ == '__main__':

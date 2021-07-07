@@ -524,8 +524,8 @@ padding-left: 15px;</string>
     <widget class="QLabel" name="duration">
      <property name="geometry">
       <rect>
-       <x>98</x>
-       <y>130</y>
+       <x>119</x>
+       <y>155</y>
        <width>52</width>
        <height>16</height>
       </rect>
