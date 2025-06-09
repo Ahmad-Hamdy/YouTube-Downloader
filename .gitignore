@@ -1,1 +1,4 @@
-complete_win.py
+__pycache__
+ffmpeg
+*.pyc
+*.pyo
